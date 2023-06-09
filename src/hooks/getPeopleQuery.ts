@@ -2,14 +2,14 @@ import {useQuery} from '@tanstack/react-query';
 
 const url = 'https://swapi.dev/api/people';
 
-export interface People {
+export interface PeopleResponse {
   count: number;
   next: string;
   previous: null | string;
-  results: Result[];
+  results: People[];
 }
 
-export interface Result {
+export interface People {
   name: string;
   height: string;
   mass: string;
@@ -34,9 +34,9 @@ export enum Gender {
   NA = 'n/a',
 }
 
-const getPeople = async (): Promise<People> => {
+const getPeople = async (page: number): Promise<PeopleResponse> => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(`${url}/?page=${page}`);
     const resJson = await response.json();
     console.log('response >>>>>>>>>>>', resJson);
     return resJson;
@@ -48,9 +48,12 @@ const getPeople = async (): Promise<People> => {
 
 interface PeopleQueryResult {
   isLoading: boolean;
-  data?: People;
+  data?: PeopleResponse;
+  refetch: any;
 }
-export const UseGetPoeple = (): PeopleQueryResult => {
-  const {isLoading, data} = useQuery(['people'], getPeople);
-  return {isLoading, data};
+export const UseGetPoeple = (page: number): PeopleQueryResult => {
+  const {isLoading, data, refetch} = useQuery(['people'], () =>
+    getPeople(page),
+  );
+  return {isLoading, data, refetch};
 };

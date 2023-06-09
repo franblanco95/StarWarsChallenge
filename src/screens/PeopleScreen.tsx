@@ -1,28 +1,33 @@
 import {
-  ActivityIndicator,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {NavigationProps} from '../navigation/MainNavigation';
+import React, {useEffect, useState} from 'react';
 import {UseGetPoeple} from '../hooks/getPeopleQuery';
+import PaginationButton from '../components/PaginationButton';
+import Loader from '../components/Loader';
 
-const PeopleScreen: React.FC<NavigationProps<'People'>> = ({navigation}) => {
-  const {data, isLoading} = UseGetPoeple();
+const PeopleScreen: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const {data, isLoading, refetch} = UseGetPoeple(currentPage);
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, refetch]);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StatusBar barStyle="light-content" backgroundColor="black" />
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <ActivityIndicator size="small" />
+          <Loader text={'Loading People..'} />
         ) : data ? (
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             {data.results.map((item, index) => (
               <View key={index} style={styles.peopleCard}>
                 <Text>Name: {item.name}</Text>
@@ -30,13 +35,22 @@ const PeopleScreen: React.FC<NavigationProps<'People'>> = ({navigation}) => {
                 <Text>Mass: {item.mass}</Text>
               </View>
             ))}
+            <View style={styles.paginationContainer}>
+              <PaginationButton
+                text={'Previous 10'}
+                handlePagination={() => setCurrentPage(currentPage - 1)}
+                disabled={data?.previous === null}
+              />
+              <PaginationButton
+                text={'Next 10'}
+                handlePagination={() => setCurrentPage(currentPage + 1)}
+                disabled={data?.next === null}
+              />
+            </View>
           </ScrollView>
         ) : (
           <Text>No Data Available</Text>
         )}
-        <TouchableOpacity onPress={() => navigation.navigate('Spaceships')}>
-          <Text style={{color: 'white'}}>Nav</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -52,11 +66,25 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: 'black',
+    paddingHorizontal: 10,
   },
   peopleCard: {
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 10,
-    margin: 10,
+    marginBottom: 10,
+  },
+  paginationContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  paginationButton: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 10,
   },
 });
