@@ -11,13 +11,16 @@ const PaginationButton: React.FC<PaginationButtonProps> = props => {
   const {text, handlePagination, disabled} = props;
   return (
     <TouchableOpacity
+      testID="pagination-button"
       style={[
         styles.paginationButton,
         {borderColor: disabled ? 'grey' : 'red'},
       ]}
       onPress={handlePagination}
       disabled={disabled}>
-      <Text style={{color: disabled ? 'grey' : 'red'}}>{text}</Text>
+      <Text testID="pagination-text" style={{color: disabled ? 'grey' : 'red'}}>
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };
