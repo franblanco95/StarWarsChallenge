@@ -8,9 +8,11 @@ interface LoaderProps {
 const Loader: React.FC<LoaderProps> = props => {
   const {text} = props;
   return (
-    <View style={styles.loaderContainer}>
-      <Text style={styles.loaderText}>{text}</Text>
-      <ActivityIndicator size="small" />
+    <View style={styles.loaderContainer} testID="loader-container">
+      <Text style={styles.loaderText} testID="loader-text">
+        {text}
+      </Text>
+      <ActivityIndicator testID="loader-activity-indicator" size="small" />
     </View>
   );
 };
