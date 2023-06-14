@@ -37,11 +37,13 @@ const SpaceshipsScreen: React.FC = () => {
             ))}
             <View style={styles.paginationContainer}>
               <PaginationButton
+                testID={'pagination-button-previous'}
                 text={'Previous 10'}
                 handlePagination={() => setCurrentPage(currentPage - 1)}
                 disabled={data?.previous === null}
               />
               <PaginationButton
+                testID={'pagination-button-next'}
                 text={'Next 10'}
                 handlePagination={() => setCurrentPage(currentPage + 1)}
                 disabled={data?.next === null}

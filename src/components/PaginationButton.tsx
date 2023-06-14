@@ -5,13 +5,14 @@ interface PaginationButtonProps {
   text: string;
   handlePagination: () => void;
   disabled: boolean;
+  testID: string;
 }
 
 const PaginationButton: React.FC<PaginationButtonProps> = props => {
-  const {text, handlePagination, disabled} = props;
+  const {text, handlePagination, disabled, testID} = props;
   return (
     <TouchableOpacity
-      testID="pagination-button"
+      testID={testID}
       style={[
         styles.paginationButton,
         {borderColor: disabled ? 'grey' : 'red'},

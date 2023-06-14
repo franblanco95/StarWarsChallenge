@@ -9,10 +9,11 @@ describe('PaginationButton', () => {
         text="Next"
         handlePagination={jest.fn()}
         disabled={false}
+        testID="pagination-button-next"
       />,
     );
 
-    const button = getByTestId('pagination-button');
+    const button = getByTestId('pagination-button-next');
     const buttonText = getByTestId('pagination-text');
 
     expect(button).toBeDefined();
@@ -27,10 +28,11 @@ describe('PaginationButton', () => {
         text="Next"
         handlePagination={handlePagination}
         disabled={false}
+        testID="pagination-button-next"
       />,
     );
 
-    const button = getByTestId('pagination-button');
+    const button = getByTestId('pagination-button-next');
     fireEvent.press(button);
     expect(handlePagination).toHaveBeenCalledTimes(1);
   });
@@ -41,9 +43,10 @@ describe('PaginationButton', () => {
         text="Next"
         handlePagination={jest.fn()}
         disabled={true}
+        testID="pagination-button-next"
       />,
     );
-    const button = getByTestId('pagination-button');
+    const button = getByTestId('pagination-button-next');
     const buttonText = getByTestId('pagination-text');
 
     expect(buttonText.props.style).toHaveProperty('color', 'grey');
