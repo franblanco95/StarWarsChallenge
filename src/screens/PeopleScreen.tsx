@@ -25,7 +25,7 @@ const PeopleScreen: React.FC = () => {
       <StatusBar barStyle="light-content" backgroundColor="black" />
       <View style={styles.mainContainer}>
         {isLoading ? (
-          <Loader text={'Loading People..'} />
+          <Loader text={'Loading People...'} />
         ) : data ? (
           <ScrollView showsVerticalScrollIndicator={false}>
             {data.results.map((item, index) => (
